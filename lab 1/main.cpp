@@ -30,7 +30,7 @@ void AddFirst (Phone* Head, string name, int year, float price) //добавле
     Head = NewPhone;
     return;
 }
-void AddLast (Phone* Head, string name, int year, float price) //добавление в конец списка
+void AddLast (Phone* Head, string name, int year, float price) //добавление элемента в конец списка
 {
     Phone *tmp = Head;
     if (Head == NULL){
@@ -48,7 +48,7 @@ void AddLast (Phone* Head, string name, int year, float price) //добавле�
     tmp->next = NewPhone;
     return;
 }
-int AddAfter (Phone *Head, string name, int year, float price, string AfterElement)
+int AddAfter (Phone *Head, string name, int year, float price, string AfterElement)//добавление после заданного элемента
 {
     if (Head == NULL)
         return 1;
@@ -66,7 +66,7 @@ int AddAfter (Phone *Head, string name, int year, float price, string AfterEleme
     tmp->next = NewPhone;
     return 0;
 }
-int AddBefore (Phone *Head, string name, int year, float price, string BeforeElement)
+int AddBefore (Phone *Head, string name, int year, float price, string BeforeElement)//добавление перед заданным элементом
 {
     if (Head == NULL)
         return 1;
@@ -91,7 +91,7 @@ int AddBefore (Phone *Head, string name, int year, float price, string BeforeEle
     prev->next = NewPhone;
     return 0;
 }
-int DeletePhone (Phone* Head, string DeletePhone)
+int DeletePhone (Phone* Head, string DeletePhone)//удаление элемента по имени
 {
     if (Head == NULL)
         return 1;
@@ -114,7 +114,7 @@ int DeletePhone (Phone* Head, string DeletePhone)
     delete tmp;
     return 0;
 }
-void PrintList (Phone *Head)
+void PrintList (Phone *Head)// вывод списка 
 {
     if (Head == NULL) {
         cout << "The list is empty" << endl;
@@ -184,27 +184,27 @@ int main()
             {
                 cout << "Input name of Phone" << endl;
                 cin >> AfterElement;
-                AddAfter (Head, name, year, price, AfterElement);
+                AddAfter (Head, name, year, price, AfterElement); //добавление после заданного элемента
                 break;
             }
             case 5:
             {
                 cout << "Input name of Phone" << endl;
                 cin >> BeforeElement;
-                AddBefore(Head, name, year, price, BeforeElement);
+                AddBefore(Head, name, year, price, BeforeElement);//добавление перед заданным элементом
                 break;
             }
             case 6:
             {
                 cout << "Input name of Phone" << endl;
                 cin >> name;
-                DeletePhone(Head, name);
+                DeletePhone(Head, name);//удаление по имени элемента
                 cout << name << " is deleted" << endl;
                 break;;
             }
             case 7:
             {
-                PrintList(Head);
+	      PrintList(Head);//печать списка
                 break;;
             }
         }
