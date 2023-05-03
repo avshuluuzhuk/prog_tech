@@ -1,0 +1,90 @@
+#include <iostream>
+using namespace std;
+
+class Vector {
+private:
+    int *vector;
+    int size;
+public:
+    Vector(int length) {
+        this->size = length;
+    }
+    void InputVector() {
+        vector = new int[size];
+        cout << "input coordinates of vector: " << endl;
+        for (int i = 0; i < size; i++) {
+            cin >> vector[i];
+        }
+    }
+    void PrintVector() {
+        for (int i = 0; i < size; i++)
+            cout << vector[i] << " ";
+    }
+    //сложение векторов
+    Vector operator+(Vector &v) {
+        for (int i = 0; i < size; i++) {
+            cout << vector[i] + v.vector[i] << " ";
+        }
+        cout << endl;
+    }
+    //вычитание векторов
+    Vector operator-(Vector &v) {
+        for (int i = 0; i < size; i++) {
+            cout << vector[i] - v.vector[i] << " ";
+        }
+        cout << endl;
+    }
+    //уножение вектора на число
+    Vector operator*(int num) {
+        for (int i = 0; i < size; i++) {
+            cout << vector[i] * num << " ";
+        }
+        cout << endl;
+    }
+    //скалярное проиведение векторов
+    int operator*(Vector &v) {
+        int result = 0;
+        for (int i = 0; i < size; i++) {
+            result += vector[i] * v.vector[i];
+        }
+        return result;
+    }
+};
+int main() {
+    int size;
+    int number;
+    cout << "input size of vectors: ";
+    cin >> size;
+
+    Vector vector1(size);
+    cout << "Vector 1: " << endl;
+    vector1.InputVector();
+    cout << endl;
+
+    Vector vector2(size);
+    cout << "Vector 2: " << endl;
+    vector2.InputVector();
+    cout << endl;
+
+    cout << "Vector 1 + Vector 2 = ";
+    Vector summa = vector1 + vector2;
+    summa.PrintVector();
+
+    cout << "Vector 1 - Vector 2 = ";
+    Vector raznitsa = vector1 - vector2;
+    raznitsa.PrintVector();
+
+    cout << "Vector 1 * Vector 2 = ";
+    int scal_proizvedenie = vector1 * vector2;
+    cout << scal_proizvedenie << endl;
+
+    cout << "input a number to multiply the vector: ";
+    cin >> number;
+    cout << "Vector 1 * " << number << " = ";
+    Vector proizvedenie_na_chislo1 = vector1 * number;
+    proizvedenie_na_chislo1.PrintVector();
+
+    cout << "Vector 2 * " << number << " = ";
+    Vector proizvedenie_na_chislo2 = vector2 * number;
+    proizvedenie_na_chislo2.PrintVector();
+}
