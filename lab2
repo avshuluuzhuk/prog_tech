@@ -1,45 +1,39 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Vector {
-private:
-    int *vector;
-    int size;
 public:
+    vector<int> vector;
+    int size;
+
     Vector(int length) {
-        this->size = length;
-    }
-    void InputVector() {
-        vector = new int[size];
-        cout << "input coordinates of vector: " << endl;
-        for (int i = 0; i < size; i++) {
-            cin >> vector[i];
-        }
-    }
-    void PrintVector() {
-        for (int i = 0; i < size; i++)
-            cout << vector[i] << " ";
+        size = length;
+        vector.resize(size);
     }
     //сложение векторов
     Vector operator+(Vector &v) {
+        Vector v3(size);
         for (int i = 0; i < size; i++) {
-            cout << vector[i] + v.vector[i] << " ";
+            v3.vector[i] = vector[i] + v.vector[i];
         }
-        cout << endl;
+        return v3;
     }
     //вычитание векторов
     Vector operator-(Vector &v) {
+        Vector v3(size);
         for (int i = 0; i < size; i++) {
-            cout << vector[i] - v.vector[i] << " ";
+            v3.vector[i] = vector[i] + v.vector[i];
         }
-        cout << endl;
+        return v3;
     }
     //уножение вектора на число
     Vector operator*(int num) {
+        Vector v3(size);
         for (int i = 0; i < size; i++) {
-            cout << vector[i] * num << " ";
+            v3.vector[i] = vector[i] * num;
         }
-        cout << endl;
+        return v3;
     }
     //скалярное проиведение векторов
     int operator*(Vector &v) {
@@ -49,22 +43,31 @@ public:
         }
         return result;
     }
+    void InputVector() {
+        cout << "input coordinates of vector: " << endl;
+        for (int i = 0; i < size; i++) {
+            cin >> vector[i];
+        }
+    }
+    void PrintVector() {
+        for (int i = 0; i < size; i++)
+            cout << vector[i] << " ";
+        cout << endl;
+    }
 };
 int main() {
     int size;
     int number;
-    cout << "input size of vectors: ";
+    cout << "Input size of vectors: ";
     cin >> size;
 
     Vector vector1(size);
     cout << "Vector 1: " << endl;
     vector1.InputVector();
-    cout << endl;
 
     Vector vector2(size);
     cout << "Vector 2: " << endl;
     vector2.InputVector();
-    cout << endl;
 
     cout << "Vector 1 + Vector 2 = ";
     Vector summa = vector1 + vector2;
@@ -78,7 +81,7 @@ int main() {
     int scal_proizvedenie = vector1 * vector2;
     cout << scal_proizvedenie << endl;
 
-    cout << "input a number to multiply the vector: ";
+    cout << "Input a number to multiply the vector: ";
     cin >> number;
     cout << "Vector 1 * " << number << " = ";
     Vector proizvedenie_na_chislo1 = vector1 * number;
