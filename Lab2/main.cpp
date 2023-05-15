@@ -23,7 +23,7 @@ public:
     Vector operator-(Vector &v) {
         Vector v3(size);
         for (int i = 0; i < size; i++) {
-            v3.vector[i] = vector[i] + v.vector[i];
+            v3.vector[i] = vector[i] - v.vector[i];
         }
         return v3;
     }
