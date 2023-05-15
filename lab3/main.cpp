@@ -1,187 +1,113 @@
 #include <iostream>
+#include <vector>
 using namespace std;
-class Matrix
-{
-private:
-    int rows, columns;
-    int *pMatrix;
-    int number;
-public:
-    void Print()
-    {
-        cout << "Matrix " << "№ " << number << ", size " << rows << "x" << columns << endl;
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                cout << pMatrix[i * columns + j] << " ";
-            }
+class Matrix {
+public:
+    vector<vector<int>> matrix;
+    int row, column;
+
+    Matrix(int size1, int size2) {
+        row = size1;
+        column = size2;
+        matrix.resize(row, vector<int>(column));
+    }
+    void InputMatrix() {
+        cout << "input coordinates of matrix: " << endl;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++)
+                cin >> matrix[i][j];
+        }
+    }
+    void PrintMatrix() {
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++)
+                cout << matrix[i][j] << " ";
             cout << endl;
         }
         cout << endl;
     }
-
-    // Конструктор принимающий размерность (2 значения)
-    Matrix(int n, int m)
-    {
-        rows = n;
-        columns = m;
-
-        pMatrix = new int[rows * columns];
-
-        for (int i = 0; i < rows * columns; i++)
-        {
-            pMatrix[i] = 0;
+    //сложение матриц
+    Matrix operator+(Matrix &m) {
+        Matrix m3(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++)
+            m3.matrix[i][j] = matrix[i][j] + m.matrix[i][j];
         }
-
-        cout << "Called constructor" << "Matrix(int n, int m) " << " made object " << "№" << number << endl << endl;
+        return m3;
     }
-
-    // Конструктор принимающий размерность и элементы массива
-    Matrix(int n, int m, double* x)
-    {
-        rows = n;
-        columns = m;
-
-        pMatrix = new int[rows * columns];
-
-        for (int i = 0; i < rows * columns; i++)
-        {
-            pMatrix[i] = x[i];
+    //вычитание матриц
+    Matrix operator-(Matrix &m) {
+        Matrix m3(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++)
+                m3.matrix[i][j] = matrix[i][j] - m.matrix[i][j];
         }
-
-        cout << "Called constructor " << "Matrix(int n, int m, double* x) " << " made object " << "№" << number << endl << endl;
-    };
-
-    // Конструктор копирования
-    Matrix(const Matrix& matrix)
-    {
-        rows = matrix.rows;
-        columns = matrix.columns;
-
-        pMatrix = new int[rows * columns];
-
-        for (int i = 0; i < rows * columns; i++)
-        {
-            pMatrix[i] = matrix.pMatrix[i];
+        return m3;
+    }
+    //уножение матрицы на число
+    Matrix operator*(int num) {
+        Matrix m3(row, column);
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++)
+            m3.matrix[i][j] = matrix[i][j] * num;
         }
-
-        cout << "Called constructor " << "Matrix(const Matrix& matrix) " << " made object " << "№" << number << endl << endl;
-    };
-    Matrix operator + (Matrix& r);
-    Matrix operator - (Matrix& r);
-    Matrix operator * (Matrix& r);
-    Matrix operator * (int n);
+        return m3;
+    }
+    //произведение матриц
+    Matrix operator*(Matrix &m) {
+        Matrix m3(row, column);
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < column; j++)
+                for (int k= 0; k < column; k++)
+                    m3.matrix[i][j] += matrix[i][k] * m.matrix[k][j];
+        return m3;
+    }
 };
-// Сложение двух матриц
-Matrix Matrix :: operator +(Matrix& r)
-{
-    if (rows == r.rows && columns == r.columns)
-    {
-        Matrix result(rows, columns);
+int main() {
+    int row, column;
+    int number;
+    cout << "Input size of matrix (row x column): ";
+    cin >> row >> column;
+    Matrix matrix1(row, column);
+    cout << "Matrix 1: " << endl;
+    matrix1.InputMatrix();
 
-        cout << "Slozhenie " << "№" << number << " and " << "№" << r.number << ", in object " << "№" << result.number + 1;
-        cout << endl << endl;
+    Matrix matrix2(row, column);
+    cout << "Matrix 2: " << endl;
+    matrix2.InputMatrix();
 
-        for (int i = 0; i < rows * columns; i++)
-        {
-            result.pMatrix[i] = pMatrix[i] + r.pMatrix[i];
-        }
-        result.Print();
+    cout << "Matrix 1: " << endl;
+    matrix1.PrintMatrix();
+    cout << "Matrix 2: " << endl;
+    matrix2.PrintMatrix();
 
-        return result;
+    cout << "Input a number to multiply the matrix: ";
+    cin >> number;
+    cout << endl;
+
+    cout << "Matrix 1 + Matrix 2 = " << endl;
+    Matrix summa = matrix1 + matrix2;
+    summa.PrintMatrix();
+
+    cout << "Matrix 1 - Matrix 2 = " << endl;
+    Matrix raznitsa = matrix1 - matrix2;
+    raznitsa.PrintMatrix();
+
+    cout << "Matrix 1 * " << number << " = " << endl;
+    Matrix proizvedenie_na_chislo1 = matrix1 * number;
+    proizvedenie_na_chislo1.PrintMatrix();
+
+    cout << "Matrix 2 * " << number << " = " << endl;
+    Matrix proizvedenie_na_chislo2 = matrix2 * number;
+    proizvedenie_na_chislo2.PrintMatrix();
+
+    cout << "Matrix 1 * Matrix 2 = " << endl;
+    if (row != column) {
+        cout << "Matrix multiplication is not possible" << endl;
+    } else {
+        Matrix proizvedenie = matrix1 * matrix2;
+        proizvedenie.PrintMatrix();
     }
-    else cout << "ne ydaloc slozit " << "№" << number << " and " << "№" << r.number << endl << endl;
-}
-
-// Вычитание двух матриц
-Matrix Matrix :: operator -(Matrix& r)
-{
-    if (rows == r.rows && columns == r.columns)
-    {
-        Matrix result(rows, columns);
-        cout << "vychitanie " << "№" << number << " and " << "№" << r.number << ", in object " << "№" << result.number + 1;
-        cout << endl << endl;
-
-        for (int i = 0; i < rows * columns; i++)
-        {
-            result.pMatrix[i] = pMatrix[i] - r.pMatrix[i];
-        }
-        result.Print();
-        return result;
-    }
-    else cout << "ne ydaloc " << "№" << number << " and " << "№" << r.number << endl << endl;
-}
-
-// Произведение двух матриц
-Matrix Matrix :: operator *(Matrix& r)
-{
-    if (columns == r.rows)
-    {
-        Matrix result(rows, r.columns);
-
-        cout << "proizvedenie " << "№" << number << " and " << "№" << r.number << ", in object " << "№" << result.number + 1;
-        cout << endl << endl;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < r.columns; j++) {
-                result.pMatrix[i * result.columns + j] = 0;
-                for (int k = 0; k < columns; k++) {
-                    result.pMatrix[i * result.columns + j] += pMatrix[i * columns + k] * r.pMatrix[k * r.columns + j];
-                }
-            }
-        }
-        return result;
-    }
-    else cout << "ne ydaloc " << "№" << number <<  " and " << "№" << r.number << endl << endl;
-}
-
-// Произведение матрицы на число
-Matrix Matrix :: operator *(int n)
-{
-    Matrix result(rows, columns);
-
-    cout << "proizvedenie " << "№" << number << " na chislo " << n << ", in object " << "№" << result.number + 1;
-    cout << endl << endl;
-
-    for (int i = 0; i < rows * columns; i++)
-    {
-        result.pMatrix[i] = pMatrix[i] * n;
-    }
-    return result;
-}
-
-int main()
-{
-    double* A;
-    int x, y;
-
-    cout << "input size of matrix (n x m): ";
-    cin >> x >> y;
-
-    int size = x * y;
-    A = new double[size];
-    cout << "input elements of matrix: "<< endl;
-    for (int i = 0; i < size; i++)
-    {
-        cin >> A[i];
-    }
-    Matrix a(x,y,A);
-
-    a.Print();
-
-    double* B;
-    cout << "input size of matrix (n x m): ";
-    cin >> x >> y;
-
-    size = x * y;
-    B = new double[size];
-    cout << "input elements of matrix: "<< endl;
-    for (int i = 0; i < size; i++)
-    {
-        cin >> B[i];
-    }
-    Matrix b(x, y, B);
-    b.Print();
-    a + b;
-    a - b;
+    return 0;
 }
